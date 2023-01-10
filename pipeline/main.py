@@ -1,6 +1,20 @@
-from typing import Dict
+from typing import Dict, List, Set
 
 from inputs.file_info import FileInfo
+from steps.reader import Element, Reader
+
+
+class Inputs:
+    key: str
+    info: FileInfo
+
+
+class Output:
+    def build(self, )
+
+
+class Outputs:
+
 
 
 class Params:
@@ -8,7 +22,7 @@ class Params:
 
 
 class Pipeline:
-    def __init__(self, params: Params):
+    def __init__(self, inputs: Dict[str, FileInfo]):
         """
         params: {
             inputs: {
@@ -18,10 +32,32 @@ class Pipeline:
             }
         }
         """
-        self.params = params
+        self.inputs = inputs
 
     def do(self):
-        readers = dict([
-            (key, self.params.inputs[key].search())
-            for key in self.params.inputs
-        ])
+        all_sets = {}
+        for key in self.inputs:
+            file = self.inputs[key].search()
+            reader = Reader(file)
+            reader.build_set()
+
+            all_sets[key] = reader.sets
+
+        appendix = build_appendix(all_sets)
+
+    def build_appendix(
+            self,
+            all_sets: Dict[str, Set[Element]],
+            key_map: Dict[str, List[str]]):
+        outputs = {}
+        for key in key_map:
+            args_keys = key_map[key]
+
+            args = [all_sets[k] for k in args_keys]
+            klass = self.params.outputs[key]
+
+            output = klass(*args)
+
+            outputs[key] = output
+
+        return outputs
