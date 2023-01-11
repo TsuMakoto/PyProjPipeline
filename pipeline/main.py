@@ -1,63 +1,63 @@
 from typing import Dict, List, Set
 
-from inputs.file_info import FileInfo
+from input import Input
+from steps.appendix import Appendix
 from steps.reader import Element, Reader
 
 
-class Inputs:
-    key: str
-    info: FileInfo
-
-
 class Output:
-    def build(self, )
-
-
-class Outputs:
-
+    appendix: Appendix
+    args_keys: List[str]
 
 
 class Params:
-    inputs: Dict[str, FileInfo]
+    inputs: Dict[str, Input]
+    outputs: Dict[str, Output]
 
 
 class Pipeline:
-    def __init__(self, inputs: Dict[str, FileInfo]):
+    def __init__(self, params: Params):
         """
         params: {
             inputs: {
-                'sample-file01': FileInfo(),
-                'sample-file02': FileInfo(),
-                'sample-file03': FileInfo()
+                'sample-file01': Input(),
+                'sample-file02': Input(),
+                'sample-file03': Input()
+            },
+            outputs: {
+                'sample-file01': Output(),
+                'sample-file02': Output(),
+                'sample-file03': Output()
             }
+
         }
         """
-        self.inputs = inputs
+        self.inputs = params.inputs
+        self.outputs = params.outputs
 
     def do(self):
         all_sets = {}
         for key in self.inputs:
-            file = self.inputs[key].search()
-            reader = Reader(file)
-            reader.build_set()
+            pipeline = self.inputs[key]
+            pipeline.search()
+            pipeline.read()
+            pipeline.build_set()
 
-            all_sets[key] = reader.sets
+            all_sets[key] = pipeline.sets
 
         appendix = build_appendix(all_sets)
 
-    def build_appendix(
-            self,
-            all_sets: Dict[str, Set[Element]],
-            key_map: Dict[str, List[str]]):
+    def build_appendix(self, all_sets: Dict[str, Set[Element]]):
         outputs = {}
-        for key in key_map:
-            args_keys = key_map[key]
+        for key in self.outputs:
+            output = self.outputs[key]
+
+            args_keys = output.args_keys
+            appendix = output.appendix
 
             args = [all_sets[k] for k in args_keys]
-            klass = self.params.outputs[key]
+            appendix.post_init(*args)
 
-            output = klass(*args)
-
-            outputs[key] = output
+            outputs[key] = appendix
 
         return outputs
