@@ -1,9 +1,9 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from pd.core.series import Series
 
 
-@dataclass
+@dataclass(frozen=True)
 class Element:
     index: int
-    row: Series
+    row: Series = field(compare=False)

@@ -3,6 +3,7 @@ from io import StringIO
 from pathlib import Path
 from typing import Union
 
+from pandas import DataFrame
 from pandas.core.series import Series
 
 from ..steps.element import Element
@@ -16,25 +17,25 @@ class Input:
     name: str
     extension: str = "csv"
 
-    def search(self):
+    def search(self) -> str:
         path = Path(self.path)
         searcher = self._searcher(path, f"{self.name}*.{self.extension}")
-        self.file = searcher.search()
+        return searcher.search()
 
-    def read(self):
-        reader = self._reader(self.file)
+    def read(self, file: str) -> DataFrame:
+        reader = self._reader(file)
         reader.read()
-        self.df = reader.df
+        return reader.df
 
-    def build_set(self):
+    def build_set(self, df: DataFrame) -> set:
         index = 0
 
         elements = []
-        for _, row in self.df.iterrows():
+        for _, row in df.iterrows():
             element = self._element(index, row)
             elements.append(element)
 
-        self.sets = set(elements)
+        return set(elements)
 
     def _searcher(self, base_path: Path, filename: str) -> Searcher:
         return Searcher(base_path, filename)

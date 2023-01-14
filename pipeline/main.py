@@ -1,5 +1,7 @@
 from typing import Dict, List, Set
 
+from utils.pipe_operator import PipeOperator
+
 from input import Input
 from steps.appendix import Appendix
 from steps.reader import Element
@@ -38,12 +40,14 @@ class Pipeline:
     def do(self):
         all_sets = {}
         for key in self.inputs:
-            pipeline = self.inputs[key]
-            pipeline.search()
-            pipeline.read()
-            pipeline.build_set()
+            funcs = self.inputs[key]
+            p = PipeOperator()
 
-            all_sets[key] = pipeline.sets
+            p *= funcs.search
+            p *= funcs.read
+            p *= funcs.build_set
+
+            all_sets[key] = p.eval()
 
         return self.build_appendix(all_sets)
 
