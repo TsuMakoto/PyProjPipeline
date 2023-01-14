@@ -1,6 +1,9 @@
-from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass
+from io import StringIO
 from pathlib import Path
+from typing import Union
+
+from pandas.core.series import Series
 
 from ..steps.element import Element
 from ..steps.reader import Reader
@@ -33,7 +36,7 @@ class Input:
 
         self.sets = set(elements)
 
-    def _searcher(self, base_path: Path, filenmae: str) -> Searcher:
+    def _searcher(self, base_path: Path, filename: str) -> Searcher:
         return Searcher(base_path, filename)
 
     def _reader(self, filepath_or_buffer: Union[str, StringIO]) -> Reader:

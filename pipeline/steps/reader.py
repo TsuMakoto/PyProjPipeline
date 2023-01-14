@@ -1,14 +1,13 @@
-from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass
 from io import StringIO
 from typing import Union
 
 import pandas as pd
-from pd.core.series import Series
 from utils.io import load_df
 
 
-class Reader(metaclass=ABCMeta):
+@dataclass
+class Reader:
     filepath_or_buffer: Union[str, StringIO]
 
     def read(self):

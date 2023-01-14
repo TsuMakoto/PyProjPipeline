@@ -2,7 +2,7 @@ from typing import Dict, List, Set
 
 from input import Input
 from steps.appendix import Appendix
-from steps.reader import Element, Reader
+from steps.reader import Element
 
 
 class Output:
@@ -45,7 +45,7 @@ class Pipeline:
 
             all_sets[key] = pipeline.sets
 
-        appendix = build_appendix(all_sets)
+        return self.build_appendix(all_sets)
 
     def build_appendix(self, all_sets: Dict[str, Set[Element]]):
         outputs = {}
