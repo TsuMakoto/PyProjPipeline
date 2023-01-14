@@ -41,13 +41,11 @@ class Pipeline:
         all_sets = {}
         for key in self.inputs:
             funcs = self.inputs[key]
-            p = PipeOperator()
 
-            p *= funcs.search
-            p *= funcs.read
-            p *= funcs.build_set
-
-            all_sets[key] = p.eval()
+            all_sets[key] = PipeOperator() * \
+                funcs.search * \
+                funcs.read >> \
+                funcs.build_set
 
         return self.build_appendix(all_sets)
 
