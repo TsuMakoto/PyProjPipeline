@@ -1,4 +1,4 @@
-from utils.pipe_operator import PipeOperator
+from utils.operators.pipe import PipeOperator
 
 from .params import Params
 from .steps.element import Element

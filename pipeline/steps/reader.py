@@ -3,7 +3,7 @@ from io import StringIO
 from typing import Union
 
 from pandas import DataFrame
-from utils.io import load_df
+from utils.pandas.loader import load_df
 
 
 @dataclass

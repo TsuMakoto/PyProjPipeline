@@ -3,7 +3,7 @@ from random import randint
 
 import pandas as pd
 from faker import Faker
-from utils.pipe_operator import PipeOperator
+from utils.operators.pipe import PipeOperator
 
 faker = Faker('jp-JP')
 
