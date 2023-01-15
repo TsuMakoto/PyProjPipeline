@@ -1,20 +1,7 @@
-from typing import Dict, List, Set
-
 from utils.pipe_operator import PipeOperator
 
-from input import Input
-from steps.appendix import Appendix
-from steps.reader import Element
-
-
-class Output:
-    appendix: Appendix
-    args_keys: List[str]
-
-
-class Params:
-    inputs: Dict[str, Input]
-    outputs: Dict[str, Output]
+from .params import Params
+from .steps.element import Element
 
 
 class Pipeline:
@@ -49,7 +36,7 @@ class Pipeline:
 
         return self.build_appendix(all_sets)
 
-    def build_appendix(self, all_sets: Dict[str, Set[Element]]):
+    def build_appendix(self, all_sets: dict[str, set[Element]]):
         outputs = {}
         for key in self.outputs:
             output = self.outputs[key]
@@ -58,7 +45,7 @@ class Pipeline:
             appendix = output.appendix
 
             args = [all_sets[k] for k in args_keys]
-            appendix.post_init(*args)
+            appendix.post_init(all_sets[key], *args)
 
             outputs[key] = appendix
 

@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from pd.core.series import Series
+from pandas.core.series import Series
 
 
 @dataclass(frozen=True)

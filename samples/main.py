@@ -37,14 +37,26 @@ def __make_data():
     jobs.make()
 
 
+def sample01():
+    from samples.sample01.main import main
+    main()
+
+
+def sample02():
+    from samples.sample02.main import main
+    main()
+
+
 @click.command()
 @click.option('--execute', '-e', type=int, default=1)
 @click.option('--make_data', '-m', is_flag=True)
 def main(execute: int, make_data: bool):
     if make_data:
         __make_data()
-    else:
-        pass
+    elif execute == 1:
+        sample01()
+    elif execute == 2:
+        sample02()
 
 
 if __name__ == "__main__":

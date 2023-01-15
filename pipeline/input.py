@@ -6,9 +6,9 @@ from typing import Union
 from pandas import DataFrame
 from pandas.core.series import Series
 
-from ..steps.element import Element
-from ..steps.reader import Reader
-from ..steps.searcher import Searcher
+from .steps.element import Element
+from .steps.reader import Reader
+from .steps.searcher import Searcher
 
 
 @dataclass
@@ -24,8 +24,7 @@ class Input:
 
     def read(self, file: str) -> DataFrame:
         reader = self._reader(file)
-        reader.read()
-        return reader.df
+        return reader.read()
 
     def build_set(self, df: DataFrame) -> set:
         index = 0
@@ -34,6 +33,7 @@ class Input:
         for _, row in df.iterrows():
             element = self._element(index, row)
             elements.append(element)
+            index += 1
 
         return set(elements)
 

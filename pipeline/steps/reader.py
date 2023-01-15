@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from io import StringIO
 from typing import Union
 
-import pandas as pd
+from pandas import DataFrame
 from utils.io import load_df
 
 
@@ -12,11 +12,9 @@ class Reader:
 
     def read(self):
         df = load_df(self.filepath_or_buffer)
-        self._parse(df)
+        return self._parse(df)
 
-        return df
-
-    def _parse(self, df: pd.core.DataFrame):
+    def _parse(self, df: DataFrame):
         df = df.fillna(0)
 
         return df
