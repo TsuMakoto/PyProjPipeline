@@ -29,8 +29,8 @@ class Pipeline:
         for key in self.inputs:
             funcs = self.inputs[key]
 
-            all_sets[key] = PipeOperator() * \
-                funcs.search * \
+            all_sets[key] = PipeOperator() >> \
+                funcs.search >> \
                 funcs.read > \
                 funcs.build_set
 
