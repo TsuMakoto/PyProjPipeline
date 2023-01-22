@@ -1,10 +1,8 @@
 from dataclasses import dataclass
-from io import StringIO
 from pathlib import Path
-from typing import Union
+from typing import Type
 
 from pandas import DataFrame
-from pandas.core.series import Series
 
 from .steps.element import Element
 from .steps.reader import Reader
@@ -16,14 +14,17 @@ class Input:
     path: str
     name: str
     extension: str = "csv"
+    searcher: Type[Searcher] = Searcher
+    reader: Type[Reader] = Reader
+    element: Type[Element] = Element
 
     def search(self) -> str:
         path = Path(self.path)
-        searcher = self._searcher(path, f"{self.name}*.{self.extension}")
+        searcher = self.searcher(path, f"{self.name}*.{self.extension}")
         return searcher.search()
 
     def read(self, file: str) -> DataFrame:
-        reader = self._reader(file)
+        reader = self.reader(file)
         return reader.read()
 
     def build_set(self, df: DataFrame) -> set:
@@ -31,17 +32,8 @@ class Input:
 
         elements = []
         for _, row in df.iterrows():
-            element = self._element(index, row)
+            element = self.element(index, row)
             elements.append(element)
             index += 1
 
         return set(elements)
-
-    def _searcher(self, base_path: Path, filename: str) -> Searcher:
-        return Searcher(base_path, filename)
-
-    def _reader(self, filepath_or_buffer: Union[str, StringIO]) -> Reader:
-        return Reader(filepath_or_buffer)
-
-    def _element(self, index: int, row: Series) -> Element:
-        return Element(index, row)
