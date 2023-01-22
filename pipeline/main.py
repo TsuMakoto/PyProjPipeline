@@ -31,7 +31,7 @@ class Pipeline:
 
             all_sets[key] = PipeOperator() * \
                 funcs.search * \
-                funcs.read >> \
+                funcs.read > \
                 funcs.build_set
 
         return self.build_appendix(all_sets)

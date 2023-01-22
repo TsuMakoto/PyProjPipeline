@@ -10,8 +10,8 @@ faker = Faker('jp-JP')
 
 def useId(ids, maximum=1000):
     for _ in range(maximum):
-        Id = PipeOperator(1, maximum) * randint >> str
-        Id = PipeOperator(maximum*10) * log10 * int >> Id.zfill
+        Id = PipeOperator(1, maximum) * randint > str
+        Id = PipeOperator(maximum*10) * log10 * int > Id.zfill
 
         if Id not in ids:
             return Id
