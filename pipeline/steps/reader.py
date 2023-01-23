@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from io import StringIO
 from typing import Union
 
+from lib.utils.pandas.loader import load_df
 from pandas import DataFrame
-from utils.pandas.loader import load_df
 
 
 @dataclass
