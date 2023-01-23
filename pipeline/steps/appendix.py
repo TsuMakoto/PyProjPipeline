@@ -1,6 +1,7 @@
 from abc import ABCMeta, abstractmethod
+from typing import Set
 
-from pipeline.steps.element import Element
+from .element import Element
 
 
 class Appendix(metaclass=ABCMeta):
@@ -8,5 +9,5 @@ class Appendix(metaclass=ABCMeta):
         self.appendix = {}
 
     @abstractmethod
-    def post_init(self, sets: set[Element], *args):
+    def post_init(self, sets: Set[Element], *args):
         pass

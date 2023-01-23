@@ -1,3 +1,5 @@
+from typing import Dict, Set
+
 from lib.utils.operators.pipe import PipeOperator
 
 from .params import Params
@@ -36,7 +38,7 @@ class Pipeline:
 
         return self.build_appendix(all_sets)
 
-    def build_appendix(self, all_sets: dict[str, set[Element]]):
+    def build_appendix(self, all_sets: Dict[str, Set[Element]]):
         outputs = {}
         for key in self.outputs:
             output = self.outputs[key]

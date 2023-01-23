@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Dict
 
 from .input import Input
 from .output import Output
@@ -6,5 +7,5 @@ from .output import Output
 
 @dataclass
 class Params:
-    inputs: dict[str, Input]
-    outputs: dict[str, Output]
+    inputs: Dict[str, Input]
+    outputs: Dict[str, Output]
