@@ -16,5 +16,8 @@ class Indexer(Generic[T]):
     def compile(self, *args):
         pass
 
+    def __getitem__(self, key) -> T:
+        return self.table[key]
+
     def __iter__(self):
         return iter(self.table)
