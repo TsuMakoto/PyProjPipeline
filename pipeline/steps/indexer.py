@@ -1,4 +1,3 @@
-from abc import ABCMeta, abstractmethod
 from typing import Generic, Set, TypeVar
 
 from .element import Element
@@ -6,7 +5,7 @@ from .element import Element
 T = TypeVar("T", bound=Element)
 
 
-class Indexer(Generic[T], metaclass=ABCMeta):
+class Indexer(Generic[T]):
     def __init__(self, sets: Set[T]):
         self.sets = sets
         self.table = self._make()
@@ -14,7 +13,6 @@ class Indexer(Generic[T], metaclass=ABCMeta):
     def _make(self):
         return {}
 
-    @abstractmethod
     def compile(self, *args):
         pass
 
