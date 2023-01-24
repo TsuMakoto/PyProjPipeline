@@ -36,19 +36,21 @@ class Pipeline:
                 funcs.read > \
                 funcs.build_set
 
-        return self.build_appendix(all_sets)
+        return self.build_indexes(all_sets)
 
-    def build_appendix(self, all_sets: Dict[str, Set[Element]]):
+    def build_indexes(self, all_sets: Dict[str, Set[Element]]):
         outputs = {}
         for key in self.outputs:
             output = self.outputs[key]
 
-            args_keys = output.args_keys
-            appendix = output.appendix
+            indexer = output.indexer(all_sets[key])
+            outputs[key] = indexer
 
-            args = [all_sets[k] for k in args_keys]
-            appendix.post_init(all_sets[key], *args)
+        for key in self.outputs:
+            args_keys = self.outputs[key].args_keys
+            indexer = outputs[key]
 
-            outputs[key] = appendix
+            args = [outputs[k] for k in args_keys]
+            indexer.compile(*args)
 
         return outputs

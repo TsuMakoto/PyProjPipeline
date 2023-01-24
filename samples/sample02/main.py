@@ -2,9 +2,9 @@ from pipeline import Pipeline
 from pipeline.output import Output
 from pipeline.params import Params
 from samples.input import company_input, job_input, user_input
-from samples.steps.appendix.company_appendix import CompanyAppendix
-from samples.steps.appendix.job_appendix import JonAppendix
-from samples.steps.appendix.user_appendix import UserAppendix
+from samples.steps.indexer.company_indexer import CompanyIndexer
+from samples.steps.indexer.job_indexer import JonIndexer
+from samples.steps.indexer.user_indexer import UserIndexer
 
 
 def main():
@@ -15,18 +15,18 @@ def main():
             "job": job_input
         },
         outputs={
-            "user": Output(UserAppendix()),
-            "company": Output(CompanyAppendix()),
-            "job": Output(JonAppendix(), ["user", "company"])
+            "user": Output(UserIndexer),
+            "company": Output(CompanyIndexer),
+            "job": Output(JonIndexer, ["user", "company"])
         }
     )
 
-    appendixes = Pipeline(params).do()
+    indexes = Pipeline(params).do()
 
-    user_appendix: UserAppendix = appendixes["user"]
-    job_appendix: JonAppendix = appendixes["job"]
+    user_index: UserIndexer = indexes["user"]
+    job_index: JonIndexer = indexes["job"]
 
-    user = user_appendix[465]
+    user = user_index[465]
 
     print(user)
-    print(job_appendix[user])
+    print(job_index[user])

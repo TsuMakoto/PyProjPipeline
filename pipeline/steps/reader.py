@@ -10,8 +10,8 @@ from pandas import DataFrame
 class Reader:
     filepath_or_buffer: Union[str, StringIO]
 
-    def read(self):
-        df = load_df(self.filepath_or_buffer)
+    def read(self, ext="csv"):
+        df = load_df(self.filepath_or_buffer, ext)
         return self._parse(df)
 
     def _parse(self, df: DataFrame):

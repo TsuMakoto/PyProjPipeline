@@ -1,10 +1,10 @@
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, Type
 
-from .steps.appendix import Appendix
+from .steps.indexer import Indexer
 
 
 @dataclass
 class Output:
-    appendix: Appendix
+    indexer: Type[Indexer]
     args_keys: List[str] = field(default_factory=list)

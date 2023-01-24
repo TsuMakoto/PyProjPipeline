@@ -2,8 +2,8 @@ from pipeline import Pipeline
 from pipeline.output import Output
 from pipeline.params import Params
 from samples.input import company_input, user_input
-from samples.steps.appendix.company_appendix import CompanyAppendix
-from samples.steps.appendix.user_appendix import UserAppendix
+from samples.steps.indexer.company_indexer import CompanyIndexer
+from samples.steps.indexer.user_indexer import UserIndexer
 
 
 def main():
@@ -13,15 +13,15 @@ def main():
             "company": company_input
         },
         outputs={
-            "user": Output(UserAppendix()),
-            "company": Output(CompanyAppendix()),
+            "user": Output(UserIndexer),
+            "company": Output(CompanyIndexer),
         }
     )
 
-    appendixes = Pipeline(params).do()
+    indexes = Pipeline(params).do()
 
-    user_appendix: UserAppendix = appendixes["user"]
-    company_appendix: CompanyAppendix = appendixes["company"]
+    user_index: UserIndexer = indexes["user"]
+    company_index: CompanyIndexer = indexes["company"]
 
-    print(user_appendix[465])
-    print(company_appendix[876])
+    print(user_index[465])
+    print(company_index[876])

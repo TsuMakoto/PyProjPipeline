@@ -25,7 +25,7 @@ class Input:
 
     def read(self, file: str) -> DataFrame:
         reader = self.reader(file)
-        return reader.read()
+        return reader.read(self.extension)
 
     def build_set(self, df: DataFrame) -> set:
         index = 0
