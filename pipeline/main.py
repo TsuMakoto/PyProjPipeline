@@ -48,9 +48,10 @@ class Pipeline:
 
         for key in self.outputs:
             args_keys = self.outputs[key].args_keys
+            kwargs = self.outputs[key].appendix
             indexer = outputs[key]
 
             args = [outputs[k] for k in args_keys]
-            indexer.compile(*args)
+            indexer.compile(*args, **kwargs)
 
         return outputs

@@ -21,3 +21,6 @@ class Indexer(Generic[T]):
 
     def __iter__(self):
         return iter(self.table)
+
+    def size(self):
+        return len(self.table)
