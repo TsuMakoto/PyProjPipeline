@@ -1,12 +1,14 @@
-from typing import Dict, Set
+from typing import Dict, Generic, Set, TypeVar
 
 from lib.utils.operators.pipe import PipeOperator
 
 from .params import Params
 from .steps.element import Element
 
+T = TypeVar("T")
 
-class Pipeline:
+
+class Pipeline(Generic[T]):
     def __init__(self, params: Params):
         """
         params: {
@@ -26,7 +28,7 @@ class Pipeline:
         self.inputs = params.inputs
         self.outputs = params.outputs
 
-    def do(self):
+    def do(self) -> T:
         all_sets = {}
         for key in self.inputs:
             funcs = self.inputs[key]
